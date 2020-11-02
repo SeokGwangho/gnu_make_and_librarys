@@ -37,18 +37,14 @@ clean:					# clean 是伪目标(.PHONY)，它不需要依赖，执行make时不�
 ################################################################################
 # Makefile 模板2
 ################################################################################
-src = $(wildcard *.c)
-targets = $(patsubst %.c, %, $(src))
-
 CC = arm-linux-gcc
 CFLAGS = -g -Wall -O0 -lpthread 
 
+src = $(wildcard *.c)
+targets = $(patsubst %.c, %, $(src))
+
 all:$(targets)
-
 $(targets):%:%.c
-    $(CC) $< -o $@ $(CFLAGS)
-
+	$(CC) $< -o $@ $(CFLAGS)
 clean:
-    -rm -rf $(targets) 
-
-.PHONY:clean all
+	rm -rf $(targets)
