@@ -11,37 +11,26 @@
 #
 # 这里提供一个简单的 Makefile 模板，根据需要做相应修改，可以适用于很多小工程:
 ################################################################################
+CC = arm-linux-gcc			# 指定编译器，可以根据需要修改为 g++ 或者 arm-linux-gcc 等交叉编译工具链
+CFLAG = -g -O0 -Wall			# 用于指定编译选项，根据需要添加，如-g、-ml、-Wall、-O2等
 
-# 指定编译器，可以根据需要修改为 g++ 或者 arm-linux-gcc 等交叉编译工具链
-CC = arm-linux-gcc
-
-# 为了获取匹配模式的文件名，*.c 表示当前工程目录的.c文件，*/*.c 表示所有下一级目录的.c文件
-SRCS = $(wildcard *.c */*.c)
-
-# 将 $(SRCS) 中的.c文件替换成.o文件。
-OBJS = $(patsubst %.c, %.o, $(SRCS))
-
-# 用于指定编译选项，根据需要添加，如-g、-ml、-Wall、-O2等
-CFLAG = -g -O0 -Wall
-
-# 使用了 wildcard 和 patsubst 函数，目的是为了指定最终生成的可执行文件名
+SRCS = $(wildcard *.c */*.c)		# 为了获取匹配模式的文件名，*.c 表示当前工程目录的.c文件，*/*.c 表示所有下一级目录的.c文件
+OBJS = $(patsubst %.c, %.o, $(SRCS))	# 将 $(SRCS) 中的.c文件替换成.o文件
+					# 使用了 wildcard 和 patsubst 函数，目的是为了指定最终生成的可执行文件名
 NAME = $(wildcard *.c)
 
+TARGET = $(patsubst %.c, %, $(NAME))	# $(TARGET):$(OBJS) 表示由.o文件链接成可执行文件
 
-# $(TARGET):$(OBJS) 表示由.o文件链接成可执行文件
-TARGET = $(patsubst %.c, %, $(NAME))
 
-# 注意, Makfile的命令行起始符号是一个<Tab>键，而$@表示目标，也就是$(TARGET)，$^表示依赖列表，也就是$(OBJS)
-$(TARGET):$(OBJS)
+$(TARGET):$(OBJS)			# 注意，Makfile的命令行起始符号是一个<Tab>键，而$@表示目标，也就是$(TARGET)，$^表示依赖列表，也就是$(OBJS)
 	$(CC) -o $@ $^ $(CFLAG)
 
-# %.o:%.c 表示由.c 文件生成.o文件，$<表示搜索到的第一个匹配的文件
-%.o:%.c
+%.o:%.c					# %.o:%.c 表示由.c 文件生成.o文件，$<表示搜索到的第一个匹配的文件
 	$(CC) -o $@ -c $< -g
 
-# clean 是伪目标(.PHONY)，它不需要依赖，执行make时不会执行，执行 make clean时才会执行
-clean:
-    rm -rf $(TARGET) $(OBJS)
+
+clean:					# clean 是伪目标(.PHONY)，它不需要依赖，执行make时不会执行，而是执行 make clean时才会执行
+	rm -rf $(TARGET) $(OBJS)
 
 
 
