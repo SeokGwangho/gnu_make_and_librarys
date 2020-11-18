@@ -2,6 +2,6 @@ KDIR = /lib/modules/$(shell uname -r)/build
 
 obj-m += test_driver.o
 all:
-    make -C $(KDIR)  M=$(shell pwd) modules
+    make -C $(KDIR)  M=$(shell pwd) modules             //-C: 指定したDirectoryに移動して、そのDirectory配下のMakefileを呼ぶ
 clean:
     make -C $(KDIR)  M=$(shell pwd) clean
