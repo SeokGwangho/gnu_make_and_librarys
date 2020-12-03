@@ -1,7 +1,24 @@
+#################################################
+#ver1
+#################################################
 KDIR = /lib/modules/$(shell uname -r)/build
 
 obj-m += test_driver.o
 all:
-    make -C $(KDIR)  M=$(shell pwd) modules             //-C: 指定したDirectoryに移動して、そのDirectory配下のMakefileを呼ぶ
+    # -C: 指定したDirectoryに移動して、そのDirectory配下のMakefileを呼ぶ
+    make -C $(KDIR)  M=$(shell pwd) modules
 clean:
     make -C $(KDIR)  M=$(shell pwd) clean
+
+
+#################################################
+#ver2
+#################################################
+KDIR = /work_and_test/linux
+all:
+    # -C: 指定したDirectoryに移動して、そのDirectory配下のMakefileを呼ぶ
+    make -C $(KERN_DIR) M=`pwd` modules
+clean:
+	make -C $(KERN_DIR) M=`pwd` modules clean
+	rm -rf modules.order
+obj-m	+= chrdev_test_drv.o
