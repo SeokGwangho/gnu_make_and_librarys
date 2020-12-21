@@ -1,3 +1,6 @@
+-C:
+	指定したdirectoryに移動して、そのdirectory配下のMakefileを呼ぶ
+
 #################################################
 #ver1
 #################################################
@@ -5,7 +8,6 @@ KDIR = /lib/modules/$(shell uname -r)/build
 
 obj-m += test_driver.o
 all:
-    # -C: 指定したDirectoryに移動して、そのDirectory配下のMakefileを呼ぶ
     make -C $(KDIR)  M=$(shell pwd) modules
 clean:
     make -C $(KDIR)  M=$(shell pwd) clean
@@ -16,9 +18,20 @@ clean:
 #################################################
 KDIR = /work_and_test/linux
 all:
-    # -C: 指定したDirectoryに移動して、そのDirectory配下のMakefileを呼ぶ
     make -C $(KERN_DIR) M=`pwd` modules
 clean:
 	make -C $(KERN_DIR) M=`pwd` modules clean
 	rm -rf modules.order
 obj-m	+= chrdev_test_drv.o
+
+
+#################################################
+#ver3
+#################################################
+KDIR = /home/seokgh/work_and_study/raspberry_pi/rpi4/linux-raspberry-pi/build
+
+obj-m += gpio_test_drv.o
+all:
+	make -C $(KDIR) M=$(PWD) modules ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
+clean:
+	make -C $(KDIR) M=$(shell pwd) clean
