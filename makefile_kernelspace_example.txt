@@ -2,6 +2,23 @@
 	指定したdirectoryに移動して、そのdirectory配下のMakefileを呼ぶ
 
 #################################################
+#ver0
+#################################################
+KDIR ?= /home/seokgh/work_and_test/jetson_nano/L4T/sources/.../Linux_for_Tegra/source/public/kernel/kernel-4.9/my_build
+
+ARCH ?= arm64
+CROSS_COMPILE ?= aarch64-linux-gnu-
+
+obj-m += wait_queue_test.o
+
+all:
+	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) M=$(PWD) -C $(KDIR) modules
+
+clean:
+	make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) M=$(PWD) -C $(KDIR) clean
+
+
+#################################################
 #ver1
 #################################################
 KDIR = /lib/modules/$(shell uname -r)/build
