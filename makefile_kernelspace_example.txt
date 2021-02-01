@@ -45,7 +45,7 @@ obj-m	+= chrdev_test_drv.o
 #################################################
 #ver3
 #################################################
-KDIR = /home/seokgh/work_and_study/raspberry_pi/rpi4/linux-raspberry-pi/build
+KDIR = /home/seokgh/work_and_test/raspberry_pi/rpi4/linux-raspberry-pi/build
 
 obj-m += gpio_test_drv.o
 all:
